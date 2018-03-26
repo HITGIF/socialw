@@ -99,15 +99,20 @@ def exthan(texts):
 def queryhan(word):
 
     sd = stardict.open_dict('sd.sqlite')
-    trans = sd.query(word)['translation']
-    trans = re.sub(r"[<\(\（\[].*?[\)\）\]>]", "", trans)
-    trans = trans.split(";")[0]
-    trans = trans.split("；")[0]
-    trans = trans.split(",")[0]
-    trans = trans.replace(" ", "")
-    trans = trans.split("\n")[0]
-    if "." in trans:
-        trans = trans.split(".")[1]
+    word = sd.query(word)
+
+    if word is not  None:
+        trans = word['translation']
+        trans = re.sub(r"[<\(\（\[].*?[\)\）\]>]", "", trans)
+        trans = trans.split(";")[0]
+        trans = trans.split("；")[0]
+        trans = trans.split(",")[0]
+        trans = trans.replace(" ", "")
+        trans = trans.split("\n")[0]
+        if "." in trans:
+            trans = trans.split(".")[1]
+    else:
+        trans = ""
 
     return trans
 
@@ -115,25 +120,30 @@ def queryhan(word):
 def querydef(word):
 
     sd = stardict.open_dict('sd.sqlite')
-    defi = sd.query(word)['definition']
-    defi = re.sub(r"[<\(\（\[].*?[\)\）\]>]", "", defi)
-    defi = defi.split(";")[0]
-    defi = defi.split("；")[0]
-    defi = defi.split(",")[0]
-    defi = defi.replace("  ", " ")
-    defi = defi.split("\n")[0]
-    if ". " in defi:
-        defi = defi.split(". ")[1]
-    if defi.startswith("n "):
-        defi = defi[2:]
-    if defi.startswith("v "):
-        defi = defi[2:]
-    if defi.startswith("vt "):
-        defi = defi[3:]
-    if defi.startswith("adj "):
-        defi = defi[4:]
-    if defi.startswith("adv "):
-        defi = defi[4:]
+    word = sd.query(word)
+
+    if word is not  None:
+        defi = word['definition']
+        defi = re.sub(r"[<\(\（\[].*?[\)\）\]>]", "", defi)
+        defi = defi.split(";")[0]
+        defi = defi.split("；")[0]
+        defi = defi.split(",")[0]
+        defi = defi.replace("  ", " ")
+        defi = defi.split("\n")[0]
+        if ". " in defi:
+            defi = defi.split(". ")[1]
+        if defi.startswith("n "):
+            defi = defi[2:]
+        if defi.startswith("v "):
+            defi = defi[2:]
+        if defi.startswith("vt "):
+            defi = defi[3:]
+        if defi.startswith("adj "):
+            defi = defi[4:]
+        if defi.startswith("adv "):
+            defi = defi[4:]
+    else:
+        defi = ""
 
     return defi
 
